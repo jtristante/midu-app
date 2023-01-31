@@ -1,24 +1,25 @@
 import {useEffect, useState} from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
+import List from "./components/List";
 
 
-interface Sub{
+interface Sub {
     nick: string
-    avatar:string
+    avatar: string
     subMonths: number
-    description?:string
+    description?: string
 }
-interface AppState{
+
+interface AppState {
     subs: Array<Sub>
 }
 
-const INITIAL_STATE =[
+const INITIAL_STATE = [
     {
         nick: 'Javi',
         subMonths: 3,
         avatar: 'https://i.pravatar.cc/150?u=Javi',
-        description :'Javi es moderador'
+        description: 'Javi es moderador'
     },
     {
         nick: 'juanito',
@@ -28,32 +29,19 @@ const INITIAL_STATE =[
 ]
 
 function App() {
-  const [subs, setSubs] = useState<AppState["subs"]>([]);
+    const [subs, setSubs] = useState<AppState["subs"]>([]);
 
-  useEffect(()=>{
-      setSubs(INITIAL_STATE)
-  },[])
+    useEffect(() => {
+        setSubs(INITIAL_STATE)
+    }, [])
 
 
-
-  return (
-    <div className="App">
-        <h1>Javi subs</h1>
-        <ul>
-            {
-                subs.map( sub =>{
-                    return(
-                        <li key={sub.nick}>
-                            <img src={sub.avatar} alt={`Avatar for ${sub.nick}`}/>
-                            <h4>{sub.nick}(<small>{sub.subMonths}</small>)</h4>
-                            <p>{sub.description?.substring(0,100)}</p>
-                        </li>
-                    )
-                })
-            }
-        </ul>
-    </div>
-  )
+    return (
+        <div className="App">
+            <h1>Javi subs</h1>
+            <List subs={subs}/>
+        </div>
+    )
 }
 
 export default App
