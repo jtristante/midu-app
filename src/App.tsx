@@ -7,6 +7,7 @@ import {Sub} from "./types";
 
 interface AppState {
     subs: Array<Sub>
+    newSubsNumber: number
 }
 
 const INITIAL_STATE = [
@@ -25,6 +26,7 @@ const INITIAL_STATE = [
 
 function App() {
     const [subs, setSubs] = useState<AppState["subs"]>([]);
+    const [newSubsNumber, setNewSubsNumber] = useState<AppState["newSubsNumber"]>(0);
     const divRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
