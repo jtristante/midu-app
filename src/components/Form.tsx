@@ -1,4 +1,4 @@
-import React, {SetStateAction, useState} from "react";
+import React, {useState} from "react";
 import {Sub} from "../types";
 
 interface FormState {
@@ -6,7 +6,7 @@ interface FormState {
 }
 
 interface FormProps {
-    onNewSub: React.Dispatch<SetStateAction<Sub[]>>
+    onNewSub: (newSub: Sub) => void
 
 }
 
@@ -21,7 +21,7 @@ const Form = ({onNewSub}: FormProps) => {
     })
     const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
-        onNewSub(subs => ([...subs, inputValues]))
+        onNewSub(inputValues)
     }
 
     const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
