@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useReducer} from "react";
 import {Sub} from "../types";
 
 interface FormState {
@@ -10,38 +10,66 @@ interface FormProps {
 
 }
 
+const INITIAL_STATE = {
+    nick: '',
+    subMonths: 0,
+    avatar: '',
+    description: ''
+}
+
+type FormReducerAction = {
+    type: "change_value",
+    payload: {
+        inputName: string,
+        inputValue: string
+    }
+} | {
+    type: "clear"
+}
+
+const formReducer = (state: FormState["inputValues"], action: FormReducerAction) => {
+    switch (action.type) {
+        case "change_value":
+            const {inputName, inputValue} = action.payload
+            return {
+                ...state,
+                [inputName]: inputValue
+            }
+        case "clear":
+            return INITIAL_STATE;
+        default:
+            return state;
+    }
+}
+
 const Form = ({onNewSub}: FormProps) => {
 
 
-    const [inputValues, setInputValues] = useState<FormState["inputValues"]>({
-        nick: '',
-        subMonths: 0,
-        avatar: '',
-        description: ''
-    })
+    // const [inputValues, setInputValues] = useState<FormState["inputValues"]>(INITIAL_STATE);
+
+    const [inputValues, dispatch] = useReducer(formReducer, INITIAL_STATE)
     const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
-        onNewSub(inputValues)
+        onNewSub(inputValues);
         handleClear();
     }
 
     const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setInputValues({
-            ...inputValues,
-            [evt.target.name]: evt.target.value
+        const {name, value} = evt.target
+        dispatch({
+            type: "change_value",
+            payload: {
+                inputName: name,
+                inputValue: value
+            }
         })
+
     }
 
     const handleClear = () => {
-        setInputValues(
-            {
-                nick: '',
-                subMonths: 0,
-                avatar: '',
-                description: ''
-            }
-        )
-
+        dispatch({
+            type: "clear"
+        })
     }
 
     return (
