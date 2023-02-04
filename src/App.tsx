@@ -18,6 +18,10 @@ function App() {
     const divRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
+
+        // TODO** Nunca jamas deberiamos tener fetchs en un componente, deberiamnos de crearnos un servicio.
+        // TODO** El map tampoco deberia de estar aqui
+        // TODO** En la implementacion no deberiamos poner el contrato
         const fetchSubs = (): Promise<SubsResponseFromApi> => {
             return axios.get('http://localhost:3001/subs')
                 .then(response => response.data);
